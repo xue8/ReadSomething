@@ -17,6 +17,7 @@ interface SettingObject {
     translateService?: string;
     themeMode?: ThemeMode;
     openaiKey?: string;
+    model?:string;
 }
 
 interface TypeSettingContext {
@@ -45,7 +46,8 @@ export default function SettingProvider ({ children }: { children: ReactNode }) 
             fontFamily = Fonts[4],  // Bookerly
             translateService = EnumTranslateServices.GoogleTranslate,
             themeMode = ThemeMode.Auto,
-            openaiKey = '';
+            openaiKey = '',
+            model = 'gpt-4o';
 
         try {
             const setting = JSON.parse(await storage.get(SettingStorageKey));
@@ -58,7 +60,8 @@ export default function SettingProvider ({ children }: { children: ReactNode }) 
                     fontFamily: _fontFamily,
                     translateService: _translateService,
                     themeMode: _themeMode,
-                    openaiKey: _openaiKey
+                    openaiKey: _openaiKey,
+                    model: _model,
                 } = setting;
 
                 if (_fontSize) fontSize = _fontSize;
@@ -68,12 +71,13 @@ export default function SettingProvider ({ children }: { children: ReactNode }) 
                 if (_translateService) translateService = _translateService;
                 if (_themeMode) themeMode = _themeMode;
                 if (_openaiKey) openaiKey = _openaiKey;
+                if (_model) model = _model;
             }
         } catch (e) {
             // ignore
             console.error(e);
         } finally {
-            await _setData({ fontSize, pageWidth, lineSpacing, fontFamily, translateService, themeMode, openaiKey });
+            await _setData({ fontSize, pageWidth, lineSpacing, fontFamily, translateService, themeMode, openaiKey, model });
         }
     };
 

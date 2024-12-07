@@ -141,6 +141,21 @@ function OpenAIKeyInput () {
     );
 }
 
+function ModelInput () {
+    const { settingObject: { model }, setSetting } = useContext(SettingContext);
+    const [value, setValue] = React.useState(model);
+
+    const handleOpenaiApiKeyChange = function (e: React.ChangeEvent<HTMLInputElement>) {
+        setValue(e.target.value);
+        void setSetting({ model: e.target.value });
+    }
+
+    return (
+        <input type="text" value={value} onChange={handleOpenaiApiKeyChange}
+            className={"text-[var(--setting-foreground)] text-[12px] p-[4px] bg-[white] w-full"} />
+    );
+}
+
 export function BasicSetting () {
     const { settingObject: { fontSize, pageWidth }, setSetting } = useContext(SettingContext);
 
@@ -214,6 +229,10 @@ export function BasicSetting () {
                             <VGap size={14} />
                             <SettingItem label={"OpenAI Key"}>
                                 <OpenAIKeyInput />
+                            </SettingItem>
+                            <VGap size={14} />
+                            <SettingItem label={"Model"}>
+                                <ModelInput />
                             </SettingItem>
                         </div>
                     }

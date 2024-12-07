@@ -28,7 +28,7 @@ const ChatUserMessage = (props) => {
 
 const ChatAssistantMessage = (props) => {
     const [message, setMessage] = useState("");
-    const { settingObject: { openaiKey } } = React.useContext(SettingContext);
+    const { settingObject: { openaiKey, model } } = React.useContext(SettingContext);
     const { messages, setMessages, chatScrollRef, isLoading, setIsLoading } = React.useContext(ChatMessageContext);
 
     useEffect(() => {
@@ -65,7 +65,7 @@ const ChatAssistantMessage = (props) => {
         myHeaders.append("Authorization", `Bearer ${openaiKey}`);
 
         const raw = JSON.stringify({
-            "model": "gpt-3.5-turbo-0301",
+            "model": model,
             "stream": true,
             "messages": handleMessages()
         });
