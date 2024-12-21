@@ -1,12 +1,16 @@
-import { createContext, useState } from "react"
-import type { ReactNode } from "react"
+import type { ReactNode } from "react";
+import { createContext, useState } from "react";
 
 export class Article {
     title: string
-
     constructor (title: string) {
         this.title = title
     }
+}
+
+export enum SummaryType {
+    Paragraph = "paragraph",
+    FullArticle = "full_article"
 }
 
 interface TypeReaderContext {
@@ -24,6 +28,9 @@ interface TypeReaderContext {
     chatOn: boolean
 
     setChatOn: (on: boolean) => void
+
+    summaryType: SummaryType
+    setSummaryType: (type: SummaryType) => void
 }
 
 export const ReaderContext = createContext({} as TypeReaderContext)
@@ -39,6 +46,7 @@ export function ReaderProvider ({
     const [_article, setArticle] = useState(article)
     const [translateOn, setTranslateOn] = useState(false)
     const [chatOn, setChatOn] = useState(false)
+    const [summaryType, setSummaryType] = useState<SummaryType>(SummaryType.Paragraph)
 
     return (
         <ReaderContext.Provider
@@ -51,8 +59,10 @@ export function ReaderProvider ({
                 setTranslateOn,
                 chatOn,
                 setChatOn,
+                summaryType,
+                setSummaryType,
             }}>
             {children}
         </ReaderContext.Provider>
-    )
+    );
 }

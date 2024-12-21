@@ -1,19 +1,19 @@
 import React, { useContext } from "react";
 import IconOpenAI from "react:~/assets/openai.svg";
 import Tooltip from "./tooltip";
-import { ReaderContext } from "~provider/reader";
+import { ReaderContext, SummaryType } from "~provider/reader";
 
 function OpenAI () {
-    const { chatOn, setChatOn } = useContext(ReaderContext);
+    const { chatOn, setChatOn, setSummaryType } = useContext(ReaderContext);
 
     const handleOpenaiButtonClick = function () {
+        setSummaryType(SummaryType.Paragraph);
         setChatOn(!chatOn);
         const openai = document.querySelectorAll("plasmo-csui")[0]
             .shadowRoot
             .querySelector<HTMLElement>("#rs-chat-container");
 
         openai.style.display = !chatOn ? "block" : "none";
-
     };
 
     return (
@@ -25,7 +25,6 @@ function OpenAI () {
             </Tooltip>
         </div>
     );
-
 }
 
 export default React.memo(OpenAI);

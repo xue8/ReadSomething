@@ -18,6 +18,7 @@ interface SettingObject {
     themeMode?: ThemeMode;
     openaiKey?: string;
     model?:string;
+    summaryPrompt?: string;
 }
 
 interface TypeSettingContext {
@@ -47,7 +48,8 @@ export default function SettingProvider ({ children }: { children: ReactNode }) 
             translateService = EnumTranslateServices.GoogleTranslate,
             themeMode = ThemeMode.Auto,
             openaiKey = '',
-            model = 'gpt-4o';
+            model = 'gpt-4o',
+            summaryPrompt = '';
 
         try {
             const setting = JSON.parse(await storage.get(SettingStorageKey));
@@ -62,6 +64,7 @@ export default function SettingProvider ({ children }: { children: ReactNode }) 
                     themeMode: _themeMode,
                     openaiKey: _openaiKey,
                     model: _model,
+                    summaryPrompt: _summaryPrompt,
                 } = setting;
 
                 if (_fontSize) fontSize = _fontSize;
@@ -72,12 +75,13 @@ export default function SettingProvider ({ children }: { children: ReactNode }) 
                 if (_themeMode) themeMode = _themeMode;
                 if (_openaiKey) openaiKey = _openaiKey;
                 if (_model) model = _model;
+                if (_summaryPrompt) summaryPrompt = _summaryPrompt;
             }
         } catch (e) {
             // ignore
             console.error(e);
         } finally {
-            await _setData({ fontSize, pageWidth, lineSpacing, fontFamily, translateService, themeMode, openaiKey, model });
+            await _setData({ fontSize, pageWidth, lineSpacing, fontFamily, translateService, themeMode, openaiKey, model, summaryPrompt });
         }
     };
 

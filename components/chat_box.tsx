@@ -8,6 +8,7 @@ import Loading from "~components/loading";
 import { debounce } from "lodash";
 import { getLatestState } from "~utils/state";
 import { CountTokens } from "~utils/token";
+import { ReaderContext, SummaryType } from "~provider/reader";
 
 const ChatBox = () => {
     const userInput = useRef<HTMLInputElement>(null);
@@ -15,8 +16,13 @@ const ChatBox = () => {
     const [components, setComponents] = useState([]);
     const [, setVisitedEntries] = useState([]);
     const [, setCache] = useState([]);
+    let { summaryType } = useContext(ReaderContext);
 
     const doSummarize =  debounce(async () => {
+        if (summaryType !== SummaryType.Paragraph) {
+            return;
+        } 
+
         const _cache = await getLatestState(setCache);
 
         let content = "";
@@ -92,9 +98,11 @@ const ChatBox = () => {
             return;
         }
 
-        const prompt = "Please answer my question with the context: \n\n" + copy;
-        // @ts-ignore
-        setMessages(preState => [...preState, { role: "user", content: prompt } as ChatMessage]);
+        if (summaryType === SummaryType.Paragraph) {
+            const prompt = "Please answer my question with the context: \n\n" + copy;
+            // @ts-ignore
+            setMessages(preState => [...preState, { role: "user", content: prompt } as ChatMessage]);
+        }
 
         setComponents(prevState => {
             return [
@@ -118,7 +126,9 @@ const ChatBox = () => {
                 <div className="flex w-full">
                     <div className="flex w-[80%]">
                         <div className="bg-grey-300 px-2">
-                            <p>嘿！欢迎来到这里，我是你的阅读助手～本文的主要内容如下：</p>
+                            <p>{summaryType === SummaryType.FullArticle ? 
+                                "嘿！欢迎使用AI总结全文功能，以下是文章的主要内容：" : 
+                                "嘿！欢迎来到这里，我是你的阅读助手～本文的主要内容如下："}</p>
                         </div>
                     </div>
                 </div>

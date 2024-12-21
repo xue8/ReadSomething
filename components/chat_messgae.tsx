@@ -59,6 +59,7 @@ const ChatAssistantMessage = (props) => {
     }
 
     const callOpenAI = function () {
+        console.log("console.log: ", handleMessages());
         // check openaiKey
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");

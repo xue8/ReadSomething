@@ -127,32 +127,59 @@ function TranslateServiceSelect () {
 }
 
 function OpenAIKeyInput () {
-    const { settingObject: { openaiKey }, setSetting } = useContext(SettingContext);
-    const [value, setValue] = React.useState(openaiKey);
-
-    const handleOpenaiApiKeyChange = function (e: React.ChangeEvent<HTMLInputElement>) {
-        setValue(e.target.value);
-        void setSetting({ openaiKey: e.target.value });
-    }
+    const { settingObject, setSetting } = useContext(SettingContext);
 
     return (
-        <input type="text" value={value} onChange={handleOpenaiApiKeyChange}
-            className={"text-[var(--setting-foreground)] text-[12px] p-[4px] bg-[white] w-full"} />
+        <SettingItem label="OpenAI Key">
+            <input
+                type="text"
+                className="w-full px-2 py-1 border rounded"
+                value={settingObject.openaiKey}
+                onChange={async (e) => {
+                    await setSetting({ openaiKey: e.target.value });
+                }}
+            />
+        </SettingItem>
     );
 }
 
 function ModelInput () {
-    const { settingObject: { model }, setSetting } = useContext(SettingContext);
-    const [value, setValue] = React.useState(model);
-
-    const handleOpenaiApiKeyChange = function (e: React.ChangeEvent<HTMLInputElement>) {
-        setValue(e.target.value);
-        void setSetting({ model: e.target.value });
-    }
+    const { settingObject, setSetting } = useContext(SettingContext);
 
     return (
-        <input type="text" value={value} onChange={handleOpenaiApiKeyChange}
-            className={"text-[var(--setting-foreground)] text-[12px] p-[4px] bg-[white] w-full"} />
+        <SettingItem label="OpenAI Model">
+            <input
+                type="text"
+                className="w-full px-2 py-1 border rounded"
+                value={settingObject.model}
+                onChange={async (e) => {
+                    await setSetting({ model: e.target.value });
+                }}
+            />
+        </SettingItem>
+    );
+}
+
+function SummaryPromptInput () {
+    const { settingObject, setSetting } = useContext(SettingContext);
+
+    return (
+        <SettingItem label="AI总结提示词">
+            <textarea
+                className="w-full px-2 py-1 border rounded resize-y min-h-[100px]"
+                value={settingObject.summaryPrompt}
+                placeholder={`你是一个专业的文章总结助手。请对以下文章内容进行全面的总结，包括以下几个方面：
+1. 主要观点和论述
+2. 重要的论据和数据支持
+3. 文章的结构和逻辑
+4. 作者的结论或建议
+
+请用清晰的结构和简洁的语言进行总结。`}
+                onChange={async (e) => {
+                    await setSetting({ summaryPrompt: e.target.value });
+                }}
+            />
+        </SettingItem>
     );
 }
 
@@ -223,17 +250,13 @@ export function BasicSetting () {
                                 </div>
                             </SettingItem>
                             <VGap size={14} />
-                            <SettingItem label={"Translation"}>
-                                <TranslateServiceSelect />
-                            </SettingItem>
-                            <VGap size={14} />
-                            <SettingItem label={"OpenAI Key"}>
-                                <OpenAIKeyInput />
-                            </SettingItem>
-                            <VGap size={14} />
-                            <SettingItem label={"Model"}>
-                                <ModelInput />
-                            </SettingItem>
+                            <OpenAIKeyInput />
+                            <VGap size={10} />
+                            <ModelInput />
+                            <VGap size={10} />
+                            <SummaryPromptInput />
+                            <VGap size={10} />
+                            <TranslateServiceSelect />
                         </div>
                     }
                 </Popover.Panel>

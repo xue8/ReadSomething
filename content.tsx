@@ -150,39 +150,38 @@ const Main = () => {
                 <MainContent>
                     <ThemeWrap>
                         <ScrollProvider>
-                            <Scroll>
-                                <ContainerWrap>
-                                    <div className="header reader-header reader-show-element">
-                                        <a className="domain reader-domain hidden"
-                                            href={articleUrl}>{domain}</a>
-                                        <div className="domain-border"></div>
-                                        <Title title={article.title} />
+                            <ChatMessageProvider>
+                                <Scroll>
+                                    <ContainerWrap>
+                                        <div className="header reader-header reader-show-element">
+                                            <a className="domain reader-domain hidden"
+                                                href={articleUrl}>{domain}</a>
+                                            <div className="domain-border"></div>
+                                            <Title title={article.title} />
 
-                                        <div className={"flex gap-[10px]"}>
-                                            <Author link={authorLink} author={author} />
-                                            <div className="meta-data">
-                                                <div className="reader-estimated-time"
-                                                    data-l10n-id="about-reader-estimated-read-time"
-                                                    data-l10n-args="{&quot;range&quot;:&quot;3–4&quot;,&quot;rangePlural&quot;:&quot;other&quot;}"
-                                                    dir="ltr">{timeToReadStr}
+                                            <div className={"flex gap-[10px]"}>
+                                                <Author link={authorLink} author={author} />
+                                                <div className="meta-data">
+                                                    <div className="reader-estimated-time"
+                                                        data-l10n-id="about-reader-estimated-read-time"
+                                                        data-l10n-args="{&quot;range&quot;:&quot;3–4&quot;,&quot;rangePlural&quot;:&quot;other&quot;}"
+                                                        dir="ltr">{timeToReadStr}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <hr />
-                                    <div className={"content"}>
-                                        <div className={`mozReaderContent readerShowElement`}>
-                                            <div className="page"
-                                                dangerouslySetInnerHTML={{ __html: article.content }} />
+                                        <hr />
+                                        <div className={"content"}>
+                                            <div className={`mozReaderContent readerShowElement`}>
+                                                <div className="page"
+                                                    dangerouslySetInnerHTML={{ __html: article.content }} />
+                                            </div>
                                         </div>
-                                    </div>
-                                    <ChatMessageProvider>
                                         <ChatArticle />
-                                    </ChatMessageProvider>
-
-                                </ContainerWrap>
-                                <Toolbar />
-                            </Scroll>
+                                    </ContainerWrap>
+                                    <Toolbar />
+                                </Scroll>
+                            </ChatMessageProvider>
                         </ScrollProvider>
                     </ThemeWrap>
                 </MainContent>

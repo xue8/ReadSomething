@@ -310,6 +310,17 @@
         }
       }
     }
+
+    button {
+      svg {
+        width: 24px;
+        height: 24px;
+        stroke: var(--icon-fill);
+        &:hover {
+          stroke: var(--primary-color);
+        }
+      }
+    }
   }
 
   .setting-font-size {
